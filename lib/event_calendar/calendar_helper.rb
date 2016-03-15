@@ -52,7 +52,6 @@ module EventCalendar
       defaults = {
         :year => (Time.zone || Time).now.year,
         :month => (Time.zone || Time).now.month,
-        :abbrev => true,
         :first_day_of_week => 0,
         :show_today => true,
         :show_header => true,
@@ -101,11 +100,11 @@ module EventCalendar
 
       # create the day names array [Sunday, Monday, etc...]
       day_names = []
-      if options[:abbrev]
-        day_names.concat(I18n.translate(:'date.abbr_day_names'))
-      else
-        day_names.concat(I18n.translate(:'date.day_names'))
+
+      I18n.translate(:'date.day_names').each_with_index do |name, index|
+        day_names << (content_tag(:span, name, class: 'hidden-xs') + content_tag(:span, I18n.translate(:'date.abbr_day_names')[index], class: 'visible-xs')).html_safe
       end
+
       options[:first_day_of_week].times do
         day_names.push(day_names.shift)
       end
@@ -141,8 +140,8 @@ module EventCalendar
       # day names
       cal << %(<table class="ec-day-names" style="height: #{options[:day_names_height]}px;" cellpadding="0" cellspacing="0">)
       cal << %(<tbody><tr>)
-      day_names.each do |day_name|
-        cal << %(<th class="ec-day-name" title="#{day_name}">#{day_name}</th>)
+      day_names.each_with_index do |day_name, index|
+        cal << %(<th class="ec-day-name" title="#{I18n.translate(:'date.day_names')[index]}">#{day_name}</th>)
       end
       cal << %(</tr></tbody></table>)
 
