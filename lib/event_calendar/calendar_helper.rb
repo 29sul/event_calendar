@@ -102,7 +102,7 @@ module EventCalendar
       day_names = []
 
       I18n.translate(:'date.day_names').each_with_index do |name, index|
-        day_names << (content_tag(:span, name, class: 'hidden-xs') + content_tag(:span, I18n.translate(:'date.abbr_day_names')[index], class: 'visible-xs')).html_safe
+        day_names << (content_tag(:span, name, class: 'd-none d-sm-block') + content_tag(:span, I18n.translate(:'date.abbr_day_names')[index], class: 'd-sm-none')).html_safe
       end
 
       options[:first_day_of_week].times do
